@@ -1,5 +1,5 @@
 ---
-name: screenshot-to-task
+name: fe-screenshot-to-task
 description: >-
   全方位理解截图与产品意图，标注业务线，拆解为结构化前端任务清单。
   有任何不理解必须选择框中询问用户确认；落地前选择框中询问补充项；确认后才写入 task/{中文任务名称}.md。
