@@ -4,6 +4,7 @@ description: >-
   Reviews frontend code changes with P0/P1/P2 findings, HTML/Markdown reports,
   and project archive for regression patterns. Use for code review, CR, PR/diff
   review, branch changes, or code quality assessment.
+disable-model-invocation: true
 license: MIT
 metadata:
   author: zeroanonx

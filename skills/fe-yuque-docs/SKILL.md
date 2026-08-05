@@ -4,6 +4,7 @@ description: >-
   通过 Cookie 读取和搜索语雀私有文档。
   只读：总结正文、搜索知识库、查看目录；不支持写入。
   在用户分享 yuque.com 链接、要求读/搜/总结语雀，或提及语雀时使用。
+disable-model-invocation: true
 license: MIT
 metadata:
   author: zeroanonx

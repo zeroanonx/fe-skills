@@ -6,6 +6,7 @@ description: >-
   截图归档至 task/screenshot/{中文任务名称}/。仅产出前端任务。
   代码实现须参照项目原有结构和风格，关键变量与函数须有标准 JSDoc。
   Use when converting design screenshots or PRD images into actionable frontend task documents.
+disable-model-invocation: true
 license: MIT
 metadata:
   author: zeroanonx
