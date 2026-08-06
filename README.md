@@ -1,4 +1,4 @@
-# ✨ fe-skills 🛠️
+# ✨ fe-skills
 
 前端组的 Agent 技能包 🎒，把团队在前端开发里反复用到的工作方式沉淀成可安装的 Skill，供 Cursor 🤖、Codex 💻、Claude 🧠 等 AI 助手统一调用。安装后即可在 Agent 会话里通过 `/fe-*` 命令或自然语言使用，具体能力见下方技能清单 👇
 
@@ -21,8 +21,7 @@ npm install --global zero-tui && zero
 
 安装后重新开启 Agent 会话 ✨ 让 Skill 生效～
 
-<details>
-<summary>📦 备选：使用 npx skills CLI</summary>
+### 📦 备选：使用 npx skills CLI
 
 未安装 zero-tui 时，可用 Skills CLI 直接安装：
 
@@ -34,9 +33,7 @@ npx skills add zeroanonx/fe-skills --all -g -a cursor -a codex -y
 npx skills add zeroanonx/fe-skills --skill fe-code-review --skill fe-yuque-docs --skill fe-screenshot-to-task --skill fe-create-rules -g -a cursor -y
 ```
 
-安装后同样需要重新开启 Agent 会话。
-
-</details>
+安装后同样需要重新开启 Agent 会话 ✨
 
 ## 技能清单 📋
 
