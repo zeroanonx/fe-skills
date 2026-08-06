@@ -1,7 +1,7 @@
 # Code Review HTML 报告模板
 
 > **读取位置**：Skill 包 `{skill-root}/template/code-review-result-html.md`（禁止读被审查项目内 template）。
-> **写入位置**：被审查项目 `code-review/code-review-result/{branch}-{run-id}-code-review-result.html`。
+> **写入位置**：被审查项目 `fe-spec/code-review/code-review-result/{branch}-{run-id}-code-review-result.html`。
 
 **生成规则（必须遵守）**
 
@@ -826,7 +826,9 @@
           <ul class="scope-grid">
             <li>
               <span class="key">范围选项</span
-              ><span class="val">[范围描述，如「当前分支相对 origin/master 的全部待合入变更」；禁止写 1 · / 2 · 前缀]</span
+              ><span class="val"
+                >[范围描述，如「当前分支相对 origin/master
+                的全部待合入变更」；禁止写 1 · / 2 · 前缀]</span
               >
             </li>
             <li>

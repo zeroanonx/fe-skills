@@ -8,7 +8,7 @@ disable-model-invocation: true
 license: MIT
 metadata:
   author: zeroanonx
-  version: "2.0.0"
+  version: "1.0.0"
 ---
 
 # Screenshot to Task
@@ -62,11 +62,11 @@ metadata:
 
 在对话中完成以下内容，**不写磁盘**：
 
-| 子步骤 | 动作 |
-|--------|------|
-| 路由 | `AskQuestion`：新建路由 or 改造已有？新建须用户提供 path/name/菜单位置；改造须源 path/页面路径。**禁止自行推断路由。** |
-| 拆解 | 按 [rules/task-template.md](rules/task-template.md) 准备 §0～§9（§0 尽可能详细） |
-| 映射 | 有 `src/` 时扫描项目，任务细化到文件路径；参照同模块已有代码，见 [rules/coding-conventions.md](rules/coding-conventions.md) |
+| 子步骤 | 动作                                                                                                                        |
+| ------ | --------------------------------------------------------------------------------------------------------------------------- |
+| 路由   | `AskQuestion`：新建路由 or 改造已有？新建须用户提供 path/name/菜单位置；改造须源 path/页面路径。**禁止自行推断路由。**      |
+| 拆解   | 按 [rules/task-template.md](rules/task-template.md) 准备 §0～§9（§0 尽可能详细）                                            |
+| 映射   | 有 `src/` 时扫描项目，任务细化到文件路径；参照同模块已有代码，见 [rules/coding-conventions.md](rules/coding-conventions.md) |
 
 扫描优先：`src/router/`、`src/views/`、`src/pages/`、`src/api/`、`src/components/`、`src/composables/`。
 
@@ -88,11 +88,11 @@ metadata:
 - 需要补充内容
 ```
 
-| 选择 | 处理 |
-|------|------|
-| 理解准确 | → 写入文件 |
-| 有偏差 | 收集修正 → 更新摘要 → **重新 AskQuestion** |
-| 需补充 | 收集补充 → 写入 §0 或 §9 → **重新 AskQuestion** |
+| 选择     | 处理                                            |
+| -------- | ----------------------------------------------- |
+| 理解准确 | → 写入文件                                      |
+| 有偏差   | 收集修正 → 更新摘要 → **重新 AskQuestion**      |
+| 需补充   | 收集补充 → 写入 §0 或 §9 → **重新 AskQuestion** |
 
 禁止纯文字代替选择框；禁止未选「理解准确」就落盘。
 
@@ -103,7 +103,7 @@ metadata:
 {项目根}/task/screenshot/{中文任务名称}/*
 ```
 
-落盘后告知：文件路径、任务名、§9 待补充项说明。
+落盘后告知：文件路径、任务名、§9 待补充项说明。 fespec
 
 ## 产出结构
 
@@ -113,11 +113,11 @@ metadata:
 
 ## 约束
 
-| 允许 | 禁止 |
-|------|------|
-| 前端页面/组件/路由/交互/校验/权限任务 | API 章节、验证清单章节 |
-| §0 详尽预览；§9 留待补充 | 用户确认前写 `task/*.md` |
-| 代码任务标注参照文件 + JSDoc 要求 | 自行编造路由 path/name |
-| 后端逻辑记入 §8 范围外 | 引入项目未使用的技术栈 |
+| 允许                                  | 禁止                     |
+| ------------------------------------- | ------------------------ |
+| 前端页面/组件/路由/交互/校验/权限任务 | API 章节、验证清单章节   |
+| §0 详尽预览；§9 留待补充              | 用户确认前写 `task/*.md` |
+| 代码任务标注参照文件 + JSDoc 要求     | 自行编造路由 path/name   |
+| 后端逻辑记入 §8 范围外                | 引入项目未使用的技术栈   |
 
 质量门槛见 [rules/standards.md](rules/standards.md)。格式示例见 [examples/example-task-format.md](examples/example-task-format.md)。

@@ -3,8 +3,8 @@
 > 来源：2 张截图
 > 业务线：会员营销
 > 端：管理后台
-> 文件：task/会员积分兑换.md
-> 截图目录：task/screenshot/会员积分兑换/
+> 文件：fe-spec/tasks/会员积分兑换/docs.md
+> 截图目录：fe-spec/tasks/会员积分兑换/screenshot/
 
 > **本文件为格式示例**，使用占位业务名。
 
@@ -12,8 +12,8 @@
 
 | 序号 | 文件                                                         | 说明              |
 | ---- | ------------------------------------------------------------ | ----------------- |
-| 01   | [01-列表页](screenshot/会员积分兑换/01-列表页.png)           | 积分兑换列表页 UI |
-| 02   | [02-PRD交互说明](screenshot/会员积分兑换/02-PRD交互说明.png) | 审核流程 PRD      |
+| 01   | [01-列表页](screenshot/01-列表页.png)           | 积分兑换列表页 UI |
+| 02   | [02-PRD交互说明](screenshot/02-PRD交互说明.png) | 审核流程 PRD      |
 
 ## 0. 整体任务预览
 
@@ -113,7 +113,7 @@
 - [ ] 1.1 **新建路由** `path: '/member/points-exchange'`，`name: 'PointsExchange'`
   - 菜单：会员营销 → 积分兑换
   - 用户确认：path `/member/points-exchange`，name `PointsExchange`
-  - 来源：[01-列表页](screenshot/会员积分兑换/01-列表页.png)
+  - 来源：[01-列表页](screenshot/01-列表页.png)
 
 - [ ] 1.2 在 `src/router/modules/member.ts` 追加路由配置
   ```ts
@@ -145,17 +145,17 @@
   async function fetchList(params: typeof searchForm): Promise<void> { ... }
   ```
 
-  - 来源：[01-列表页](screenshot/会员积分兑换/01-列表页.png)
+  - 来源：[01-列表页](screenshot/01-列表页.png)
 
 ## 4. 组件 — 兑换详情抽屉（新建）
 
 - [ ] 4.1 新建 `components/DetailDrawer.vue`
   - 触发：「查看详情」；内容见 §0
-  - 来源：[01-列表页](screenshot/会员积分兑换/01-列表页.png)
+  - 来源：[01-列表页](screenshot/01-列表页.png)
 
 - [ ] 4.2 新建 `components/RejectConfirmModal.vue`
   - 触发：抽屉「拒绝」；文案见 §0 业务规则
-  - 来源：[02-PRD交互说明](screenshot/会员积分兑换/02-PRD交互说明.png)
+  - 来源：[02-PRD交互说明](screenshot/02-PRD交互说明.png)
 
 ## 5. 交互与状态流转
 

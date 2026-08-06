@@ -44,9 +44,9 @@ zero
 
 | 目录 | 触发 | 说明 | 主要产出 |
 |------|------|------|----------|
-| `fe-code-review` | `/fe-code-review` 或「帮我 CR」 | 7 步前端 Code Review，P0/P1/P2 分级，HTML/MD 报告 | 被审项目内 `code-review/code-review-result/`、`code-review/archive/` |
+| `fe-code-review` | `/fe-code-review` 或「帮我 CR」 | 7 步前端 Code Review，P0/P1/P2 分级，HTML/MD 报告 | 被审项目内 `fe-spec/code-review/`；需配套 vue/react/ts skill |
 | `fe-yuque-docs` | `/fe-yuque-docs` 或分享语雀 URL | 通过 Cookie **只读/搜索**语雀私有文档（不支持写入） | 对话内总结；Cookie 存于 skill 包 `credentials/cookie.txt` |
-| `fe-screenshot-to-task` | `/fe-screenshot-to-task` | 截图/PRD 转前端任务清单，落地前须用户确认 | 被审项目内 `task/{中文任务名称}.md`、`task/screenshot/` |
+| `fe-screenshot-to-task` | `/fe-screenshot-to-task` | 截图/PRD 转前端任务清单，落地前须用户确认 | 被审项目内 `fe-spec/tasks/{任务名}/docs.md` |
 
 ## 从独立仓库迁移
 

@@ -1,15 +1,15 @@
 # Code Review Markdown 备份模板
 
 > **读取位置**：Skill 包 `{skill-root}/template/code-review-result-md.md`（禁止读被审查项目内 template）。
-> **写入位置**：被审查项目 `code-review/backup/{branch}-{run-id}-code-review-result.md`。评分见 [workflow/review.md](../workflow/review.md)。
+> **写入位置**：被审查项目 `fe-spec/code-review/backup/{branch}-{run-id}-code-review-result.md`。
 
 **生成规则（必须遵守）**
 
-| 区块 | 规则 |
-| ---- | ---- |
-| 历史回归 | **仅输出「命中」项**；无命中或 archive 为空则**整节省略** |
+| 区块     | 规则                                                              |
+| -------- | ----------------------------------------------------------------- |
+| 历史回归 | **仅输出「命中」项**；无命中或 archive 为空则**整节省略**         |
 | 综合评估 | 字段与 HTML header（grade / verdict / debt / stat-strip）保持一致 |
-| P0/P1/P2 | 每条须含「原代码」与「修复/优化建议」代码块 |
+| P0/P1/P2 | 每条须含「原代码」与「修复/优化建议」代码块                       |
 
 ````markdown
 # Code Review 报告

@@ -4,15 +4,15 @@
 
 ## 扫描路径
 
-| 路径 | 提取 |
-|------|------|
-| `package.json` | 框架、TS/JS、构建工具 |
-| `src/router/**` | 路由组织方式 |
-| `src/views/**` / `src/pages/**` | 页面目录、命名、脚本风格 |
-| `src/components/**` | 组件 props/emits 风格 |
-| `src/api/**` / `src/services/**` | 请求封装 |
-| `src/constants/**` | 常量/枚举 |
-| `src/composables/**` / `src/hooks/**` | hooks 写法 |
+| 路径                                  | 提取                     |
+| ------------------------------------- | ------------------------ |
+| `package.json`                        | 框架、TS/JS、构建工具    |
+| `src/router/**`                       | 路由组织方式             |
+| `src/views/**` / `src/pages/**`       | 页面目录、命名、脚本风格 |
+| `src/components/**`                   | 组件 props/emits 风格    |
+| `src/api/**` / `src/services/**`      | 请求封装                 |
+| `src/constants/**`                    | 常量/枚举                |
+| `src/composables/**` / `src/hooks/**` | hooks 写法               |
 
 ## 对照原则
 
@@ -23,13 +23,13 @@
 
 ## JSDoc 范围
 
-| 类型 | 必须 |
-|------|------|
-| 导出函数/方法（含业务逻辑） | ✓ |
-| 复杂常量/配置对象 | ✓ |
-| 组件 props / emits | ✓ |
-| composable 返回值 | ✓ |
-| 简单 `ref(false)` | 不必 |
+| 类型                        | 必须 |
+| --------------------------- | ---- |
+| 导出函数/方法（含业务逻辑） | ✓    |
+| 复杂常量/配置对象           | ✓    |
+| 组件 props / emits          | ✓    |
+| composable 返回值           | ✓    |
+| 简单 `ref(false)`           | 不必 |
 
 ```ts
 /**
@@ -48,5 +48,5 @@ async function fetchList(params: typeof searchForm): Promise<void> { ... }
 - [ ] 3.1 新建 `src/views/Example/List/index.vue`（**新建页面**）
   - **参照**：`src/views/Example/SimilarList/index.vue`
   - 关键函数须 JSDoc（见上）
-  - 来源：[01-列表页](screenshot/{任务名}/01-列表页.png)
+  - 来源：[01-列表页](screenshot/01-列表页.png)
 ```

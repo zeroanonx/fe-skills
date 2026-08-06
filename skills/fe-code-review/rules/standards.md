@@ -1,21 +1,21 @@
-# Frontend Code Review Standards
+# 前端 Code Review 编码标准
 
-> 审查对照本文档；违规按 P0 / P1 / P2 标注。与 [SKILL.md](../SKILL.md) 配套。
+> 审查对照本文档；违规按 P0 / P1 / P2 标注。流程见 [SKILL.md](../SKILL.md)。
 
 ---
 
 ## 零、通用强制项（优先检查）
 
-| # | 规则 | CR 要点 |
-|---|------|---------|
-| 1 | 不要滥用 `async/await`，使用处必须 `try/catch` | 裸 await、无错误边界 → P0 |
-| 2 | TS 项目禁止 `any`；API 入参/出参必须定义类型 | 缺失 interface/type → P0 |
-| 3 | 禁止魔法值 | 未提取常量/枚举 → P1 |
-| 4 | 遵守样式属性顺序 | 有 stylelint 的项目必须过；无校验老项目可忽略 |
-| 5 | 第三方 API 必须二次封装 | 业务层直接调 SDK → P1 |
-| 6 | Vue 3 使用 `<script setup>` 语法糖 | Options API 新代码 → P1 |
-| 7 | 缩进：2 空格或 1 Tab（与项目一致） | 混用或错误缩进 → P2 |
-| 8 | 生命周期钩子内不写业务逻辑 | 复杂逻辑应抽函数/composable → P1 |
+| #   | 规则                                           | CR 要点                                       |
+| --- | ---------------------------------------------- | --------------------------------------------- |
+| 1   | 不要滥用 `async/await`，使用处必须 `try/catch` | 裸 await、无错误边界 → P0                     |
+| 2   | TS 项目禁止 `any`；API 入参/出参必须定义类型   | 缺失 interface/type → P0                      |
+| 3   | 禁止魔法值                                     | 未提取常量/枚举 → P1                          |
+| 4   | 遵守样式属性顺序                               | 有 stylelint 的项目必须过；无校验老项目可忽略 |
+| 5   | 第三方 API 必须二次封装                        | 业务层直接调 SDK → P1                         |
+| 6   | Vue 3 使用 `<script setup>` 语法糖             | Options API 新代码 → P1                       |
+| 7   | 缩进：2 空格或 1 Tab（与项目一致）             | 混用或错误缩进 → P2                           |
+| 8   | 生命周期钩子内不写业务逻辑                     | 复杂逻辑应抽函数/composable → P1              |
 
 ---
 
@@ -53,25 +53,39 @@
 **1）全大写 + 下划线**
 
 ```typescript
-const MAX_LENGTH = 200
+const MAX_LENGTH = 200;
 
 export const COMMON_FLAG = {
   yes: 1,
-  no: 2
-}
+  no: 2,
+};
 ```
 
 **2）可见性 / 进行中状态：`is` + 动词/形容词**
 
 ```typescript
-isShow, isVisible, isLoading, isConnecting, isValidating, isRunning, isListening
+(isShow,
+  isVisible,
+  isLoading,
+  isConnecting,
+  isValidating,
+  isRunning,
+  isListening);
 ```
 
 **3）属性状态类**
 
 ```typescript
-disabled, editable, clearable, readonly, expandable, checked,
-enumerable, iterable, clickable, draggable
+(disabled,
+  editable,
+  clearable,
+  readonly,
+  expandable,
+  checked,
+  enumerable,
+  iterable,
+  clickable,
+  draggable);
 ```
 
 #### 1.1.5 方法命名
@@ -88,21 +102,21 @@ function getUserDetail() {}
 **事件命名**：`on*` / `handle*`
 
 ```typescript
-onSubmit, onKeydown, handleSizeChange, handlePageChange
+(onSubmit, onKeydown, handleSizeChange, handlePageChange);
 ```
 
 ---
 
 ### （二）注释规范
 
-| 类型 | 要求 |
-|------|------|
-| 方法 | 必填 `@function`、`@param`；建议 `@description`、`@return`、`@example` |
-| 常量 | `@constant` |
-| 枚举 | `@enum` |
-| 接口/API | `@api` |
-| HTML | 区块注释 `<!-- S 模块名 -->` … `<!-- E 模块名 -->`（老项目可用 Start/End） |
-| CSS | 单行 `/* */`；模块用分隔线；文件头可用 `@description` `@author` `@date` |
+| 类型     | 要求                                                                       |
+| -------- | -------------------------------------------------------------------------- |
+| 方法     | 必填 `@function`、`@param`；建议 `@description`、`@return`、`@example`     |
+| 常量     | `@constant`                                                                |
+| 枚举     | `@enum`                                                                    |
+| 接口/API | `@api`                                                                     |
+| HTML     | 区块注释 `<!-- S 模块名 -->` … `<!-- E 模块名 -->`（老项目可用 Start/End） |
+| CSS      | 单行 `/* */`；模块用分隔线；文件头可用 `@description` `@author` `@date`    |
 
 ---
 
@@ -124,8 +138,10 @@ onSubmit, onKeydown, handleSizeChange, handlePageChange
 - Template 属性使用**双引号** `"`
 
 ```html
-✅ <div class="box"></div>
-❌ <div class='box'></div>
+✅
+<div class="box"></div>
+❌
+<div class="box"></div>
 ```
 
 ---
@@ -143,10 +159,18 @@ onSubmit, onKeydown, handleSizeChange, handlePageChange
 - 优先直接子选择器 `>` 而非深层后代
 
 ```css
-✅ .content > .title { font-size: 2rem; }
-❌ .content .title { font-size: 2rem; }  /* 过宽 */
-❌ span { color: red; }
-❌ #header { margin: 0; }
+✅ .content > .title {
+  font-size: 2rem;
+}
+❌ .content .title {
+  font-size: 2rem;
+} /* 过宽 */
+❌ span {
+  color: red;
+}
+❌ #header {
+  margin: 0;
+}
 ```
 
 #### 1.4.3 精简写法
@@ -173,8 +197,20 @@ onSubmit, onKeydown, handleSizeChange, handlePageChange
 - 嵌套层级不宜过深（建议 ≤ 3 层）
 
 ```less
-✅ .main-title { .name { color: #fff; } }
-❌ .main { .title { .name { .text { ... } } } }
+✅ .main-title {
+  .name {
+    color: #fff;
+  }
+}
+❌ .main {
+  .title {
+    .name {
+      .text {
+        ...;
+      }
+    }
+  }
+}
 ```
 
 ---
@@ -375,39 +411,39 @@ src/
 
 ### 3.1.1 常用请求字段
 
-| 字段 | 类型 | 默认 | 说明 |
-|------|------|------|------|
-| page | int | 1 | 当前页码 |
-| pageSize | int | 10 | 每页条数；移动端上拉可省略 |
-| totalCount | int | 0 | 总条数；PC 分页必填 |
-| list | Array | [] | 列表统一字段名；多列表时前缀如 `storeList` |
-| username / password / oldPassword / newPassword | string | "" | 账号相关 |
-| verificationCode | string | "" | 验证码 |
-| phone / email / headImage | string | "" | 用户资料 |
-| address / province / city / district | string | "" | 地址 |
-| hasPermission / isAdmin | int | 1 | 1=是 2=否 |
-| time | string | yyyy-MM-dd HH:mm:ss | 单时间点 |
-| startTime / endTime | string | | 时间段 |
-| status | int | 1 | 状态；**0 禁止有业务含义** |
-| searchContent | string | "" | 列表搜索 |
-| version | string | 1.0.0 | 版本号 |
-| appinfo | string/object | | App 专用，不参与验签 |
-| sign | string | | MD5 签名串 |
+| 字段                                            | 类型          | 默认                | 说明                                       |
+| ----------------------------------------------- | ------------- | ------------------- | ------------------------------------------ |
+| page                                            | int           | 1                   | 当前页码                                   |
+| pageSize                                        | int           | 10                  | 每页条数；移动端上拉可省略                 |
+| totalCount                                      | int           | 0                   | 总条数；PC 分页必填                        |
+| list                                            | Array         | []                  | 列表统一字段名；多列表时前缀如 `storeList` |
+| username / password / oldPassword / newPassword | string        | ""                  | 账号相关                                   |
+| verificationCode                                | string        | ""                  | 验证码                                     |
+| phone / email / headImage                       | string        | ""                  | 用户资料                                   |
+| address / province / city / district            | string        | ""                  | 地址                                       |
+| hasPermission / isAdmin                         | int           | 1                   | 1=是 2=否                                  |
+| time                                            | string        | yyyy-MM-dd HH:mm:ss | 单时间点                                   |
+| startTime / endTime                             | string        |                     | 时间段                                     |
+| status                                          | int           | 1                   | 状态；**0 禁止有业务含义**                 |
+| searchContent                                   | string        | ""                  | 列表搜索                                   |
+| version                                         | string        | 1.0.0               | 版本号                                     |
+| appinfo                                         | string/object |                     | App 专用，不参与验签                       |
+| sign                                            | string        |                     | MD5 签名串                                 |
 
 ### 3.1.2 统一响应结构
 
-| 字段 | 类型 | 说明 |
-|------|------|------|
-| errorCode | int | 200 为成功；业务错误据此分支 |
-| errorMsg | string | 错误文案，可直接展示 |
-| data | Object | 成功时必须为对象；列表/实体均在 data 内 |
-| success | boolean | 业务是否成功 |
+| 字段      | 类型    | 说明                                    |
+| --------- | ------- | --------------------------------------- |
+| errorCode | int     | 200 为成功；业务错误据此分支            |
+| errorMsg  | string  | 错误文案，可直接展示                    |
+| data      | Object  | 成功时必须为对象；列表/实体均在 data 内 |
+| success   | boolean | 业务是否成功                            |
 
 ### 3.1.3 列表响应
 
-| 字段 | 必填 | 说明 |
-|------|------|------|
-| list | 是 | 列表数据 |
+| 字段       | 必填    | 说明                       |
+| ---------- | ------- | -------------------------- |
+| list       | 是      | 列表数据                   |
 | totalCount | PC 必填 | 分页；移动端上拉加载可省略 |
 
 ---
@@ -431,17 +467,17 @@ src/
 
 ## 五、正例 / 反例索引
 
-| 场景 | ✅ | ❌ |
-|------|----|----|
-| 项目名 | `user-center-admin` | `userCenterAdmin` |
-| 工具文件 | `dateFormatter.ts` | `date_formatter.ts` |
-| JS 字符串 | `'hello'` | `"hello"` |
-| Template 属性 | `class="box"` | `class='box'` |
-| 条件语句 | `if (x) { fn() }` | `if (x) fn()` |
-| 组件样式 | `<style scoped>` | 全局污染 |
-| 列表字段 | `data.list` | `data.items` / `data.rows` 混用 |
-| 状态 0 | 不使用 | `status: 0` 表示业务态 |
+| 场景          | ✅                  | ❌                              |
+| ------------- | ------------------- | ------------------------------- |
+| 项目名        | `user-center-admin` | `userCenterAdmin`               |
+| 工具文件      | `dateFormatter.ts`  | `date_formatter.ts`             |
+| JS 字符串     | `'hello'`           | `"hello"`                       |
+| Template 属性 | `class="box"`       | `class='box'`                   |
+| 条件语句      | `if (x) { fn() }`   | `if (x) fn()`                   |
+| 组件样式      | `<style scoped>`    | 全局污染                        |
+| 列表字段      | `data.list`         | `data.items` / `data.rows` 混用 |
+| 状态 0        | 不使用              | `status: 0` 表示业务态          |
 
 ---
 
-*文档版本：与 code-review SKILL 配套使用。审查时结合项目实际 lint/tsconfig 配置，老项目无 stylelint 时可忽略样式顺序项。*
+_文档版本：与 fe-code-review skill 配套使用。审查时结合项目实际 lint/tsconfig 配置，老项目无 stylelint 时可忽略样式顺序项。_
