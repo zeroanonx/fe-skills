@@ -8,7 +8,7 @@ disable-model-invocation: true
 license: MIT
 metadata:
   author: zeroanonx
-  version: "2.2.0"
+  version: "1.0.0"
 ---
 
 # 前端 Code Review
@@ -78,11 +78,11 @@ Skill 包 `template/` 仅作读取，**禁止**在被审项目 `fe-spec/code-rev
 
 按技术栈检测，**任一所需 skill 缺失 → 立即停止**，输出安装指引，禁止继续步骤 3～7。
 
-| 条件                                           | 所需 skill                    | 检测路径（任一存在）                                           |
-| ---------------------------------------------- | ----------------------------- | -------------------------------------------------------------- |
-| 含 `vue` / `@vue/` / `nuxt`                    | `vue-best-practices`          | `~/.cursor/skills-cursor/vue-best-practices/SKILL.md`          |
-| 含 `react` / `react-dom` / `next`              | `vercel-react-best-practices` | `~/.cursor/skills-cursor/vercel-react-best-practices/SKILL.md` |
-| 含 TS / `tsconfig.json` / diff 含 `.ts`/`.tsx` | `typescript-best-practices`   | `~/.cursor/skills-cursor/typescript-best-practices/SKILL.md`   |
+| 条件                                           | 所需 skill                    | 检测路径（任一存在）                                                                          |
+| ---------------------------------------------- | ----------------------------- | --------------------------------------------------------------------------------------------- |
+| 含 `vue` / `@vue/` / `nuxt`                    | `vue-best-practices`          | `~/.cursor/skills-cursor/` 或 `~/.agents/skills/` 下的 `vue-best-practices/SKILL.md`          |
+| 含 `react` / `react-dom` / `next`              | `vercel-react-best-practices` | `~/.cursor/skills-cursor/` 或 `~/.agents/skills/` 下的 `vercel-react-best-practices/SKILL.md` |
+| 含 TS / `tsconfig.json` / diff 含 `.ts`/`.tsx` | `typescript-best-practices`   | `~/.cursor/skills-cursor/` 或 `~/.agents/skills/` 下的 `typescript-best-practices/SKILL.md`   |
 
 缺失时输出：
 

@@ -143,7 +143,7 @@
   - 来源：[01-列表页](screenshot/01-列表页.png)
 ```
 
-含代码时加 **参照** + JSDoc 要求，见 [coding-conventions.md](coding-conventions.md)。
+含代码时加 **参照** + JSDoc 要求（见 SKILL.md 步骤 3「代码映射原则」）。
 
 ## 章节要点
 
