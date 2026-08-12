@@ -41,6 +41,7 @@ npx skills add zeroanonx/fe-skills --skill fe-code-review --skill fe-yuque-docs 
 | -------------------------- | -------------------------------------------------------------------------------- | ------------------------------- | --------------------------------------------- | --------------------------------------------- |
 | `fe-code-review` 🔍        | [skills/fe-code-review/README.md](skills/fe-code-review/README.md)               | `/fe-code-review` 或「帮我 CR」 | 7 步前端 Code Review，P0/P1/P2 分级           | `fe-spec/code-review/`                        |
 | `fe-yuque-docs` 📖         | [skills/fe-yuque-docs/README.md](skills/fe-yuque-docs/README.md)                 | `/fe-yuque-docs` 或分享语雀 URL | Cookie **只读/搜索**语雀（不支持写入）        | 对话内总结                                    |
+| `fe-dingtalk-docs` 📄      | [skills/fe-dingtalk-docs/README.md](skills/fe-dingtalk-docs/README.md)           | `/fe-dingtalk-docs` 或分享钉钉文档 URL | Cookie **只读**钉钉文档/智能表格（不支持写入） | 对话内总结                                    |
 | `fe-screenshot-to-task` 📸 | [skills/fe-screenshot-to-task/README.md](skills/fe-screenshot-to-task/README.md) | `/fe-screenshot-to-task`        | 截图/PRD 转前端任务，落地前须确认             | `fe-spec/tasks/{任务名}/`                     |
 | `fe-create-rules` 📐       | [skills/fe-create-rules/README.md](skills/fe-create-rules/README.md)             | `/fe-create-rules`              | 分析老项目，生成 Cursor/Codex/Claude 编码规则 | `.cursor/rules/` 或 `AGENTS.md` / `CLAUDE.md` |
 
