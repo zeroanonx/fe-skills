@@ -14,6 +14,7 @@
 
 ```text
 https://alidocs.dingtalk.com/i/nodes/{nodeId}?corpId=...
+https://alidocs.dingtalk.com/i/note/{nodeId}/edit?corpId=...
 https://alidocs.dingtalk.com/i/nodes/{nodeId}?iframeQuery=entrance%3Ddata%26sheetId%3D...%26viewId%3D...
 ```
 
@@ -21,7 +22,7 @@ https://alidocs.dingtalk.com/i/nodes/{nodeId}?iframeQuery=entrance%3Ddata%26shee
 
 | 字段      | 来源                                  | 说明               |
 | --------- | ------------------------------------- | ------------------ |
-| node_id   | `/i/nodes/{nodeId}`                   | 文档 / 表格节点 ID |
+| node_id   | `/i/nodes/{nodeId}` 或 `/i/note/{nodeId}` | 文档 / 表格节点 ID |
 | corp_id   | query `corpId`                        | 企业 ID            |
 | sheet_id  | query 或 `iframeQuery` 中的 `sheetId` | 智能表格 sheet     |
 | view_id   | query 或 `iframeQuery` 中的 `viewId`  | 智能表格 view      |
@@ -32,9 +33,10 @@ https://alidocs.dingtalk.com/i/nodes/{nodeId}?iframeQuery=entrance%3Ddata%26shee
 | -------- | ---- | ---------------------------- |
 | 检查登录 | GET  | 用户给出的 alidocs 页面 URL  |
 | 读取页面 | GET  | 用户给出的 alidocs 页面 URL  |
-| 提取正文 | 本地 | HTML body / 内嵌 JSON / meta |
+| 跟随候选页 | GET | 页面内发现的 `/note/`、`/edit/`、同 nodeId 链接 |
+| 提取正文 | 本地 | HTML body / SSR / 内嵌 JSON / meta |
 
-> 不写死钉钉私有 API 路径。若后续确认稳定只读接口，可补充到本文件，并仍然只允许 GET 类读取。
+> 不写死钉钉私有 API 路径。当前允许跟随同域、同 nodeId 的 note/edit 页面。若后续确认稳定只读接口，可补充到本文件，并仍然只允许 GET 类读取。
 
 ## 禁止
 

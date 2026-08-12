@@ -2,7 +2,7 @@
 name: fe-dingtalk-docs
 description: >-
   通过 Cookie 读取钉钉文档 / 钉钉智能表格（alidocs.dingtalk.com）内容。
-  只读：解析链接、读取正文、提取页面/内嵌数据；不支持新建、更新、删除或移动文档。
+  只读：解析链接、读取正文、跟随 note/edit 子页面提取 SSR/内嵌数据；不支持新建、更新、删除或移动文档。
   在用户分享 alidocs.dingtalk.com 链接、要求读/总结钉钉文档时使用。
 disable-model-invocation: true
 license: MIT
@@ -27,10 +27,11 @@ metadata:
 
 1. 校验 Cookie（`credentials/cookie.txt`），并解析用户链接中的 `node_id`、`corpId`、`sheetId`、`viewId`
 2. 将意图映射到 CLI 子命令（`cookie`、`info`、`read`）
-3. 执行 `python3 scripts/dingtalk_docs.py <子命令> ...`
-4. 返回标题、链接、结构化摘要，并附带完整文档链接
+3. `read` 先读取原始 `/i/nodes/...` 页面，再自动跟随页面中发现的 `/note/`、`/edit/` 等只读候选页
+4. 对所有候选页提取 HTML / SSR / 内嵌 JSON 文本，选择最像正文的一份
+5. 返回标题、链接、正文来源 `source_url`、已尝试链接 `followed_urls`，并附带完整文档链接
 
-> 钉钉文档页面是 SPA，正文可能来自浏览器运行时接口。脚本只读取页面 HTML 与内嵌 JSON；若正文未出现在可读响应中，应提示用户提供已登录 Cookie 或补充只读接口样本，禁止猜测写入接口。
+> 钉钉文档页面是 SPA，正文可能来自 note/edit 子页面或浏览器运行时接口。脚本只执行 GET 页面读取与本地提取；若自动跟随后仍没有正文，应提示用户提供 Network 中加载正文的 GET/只读请求样本，禁止猜测写入接口。
 
 ## 初始化
 
@@ -65,6 +66,7 @@ CLI="python3 scripts/dingtalk_docs.py"
 
 ```text
 https://alidocs.dingtalk.com/i/nodes/{nodeId}?corpId=...
+https://alidocs.dingtalk.com/i/note/{nodeId}/edit?corpId=...
 https://alidocs.dingtalk.com/i/nodes/{nodeId}?iframeQuery=...sheetId=...viewId=...
 ```
 
@@ -80,7 +82,7 @@ https://alidocs.dingtalk.com/i/nodes/{nodeId}?iframeQuery=...sheetId=...viewId=.
 | 允许                      | 禁止                                    |
 | ------------------------- | --------------------------------------- |
 | 读取、总结、解析链接      | 新建、更新、删除、移动文档              |
-| 读取页面 HTML 与内嵌 JSON | 调用写入接口、提交表格数据、变更权限    |
+| 读取 node/note/edit HTML 与内嵌 JSON | 调用写入接口、提交表格数据、变更权限    |
 | 保存 / 检查本地 Cookie    | 在对话中输出 Cookie                     |
 | 提示用户补充只读接口样本  | 猜测私有写入 API 或伪造已成功读取的正文 |
 
@@ -95,7 +97,7 @@ fe-dingtalk-docs 仅用于读取和查找，不支持新建、更新、删除或
 | 现象                   | 处理                                                    |
 | ---------------------- | ------------------------------------------------------- |
 | exit 2 / auth_error    | 重新获取并保存 Cookie                                   |
-| 页面只有标题没有正文   | 钉钉正文可能由运行时接口加载；请补充只读接口样本        |
+| 页面只有标题没有正文   | 脚本会自动尝试 note/edit 子页面；仍失败时请补充 Network 中加载正文的 GET/只读请求样本 |
 | 403 / 无权限           | 确认当前钉钉账号是否有该文档权限                        |
 | 智能表格没有单元格数据 | 检查链接是否带 `sheetId` / `viewId`，或补充只读接口样本 |
 

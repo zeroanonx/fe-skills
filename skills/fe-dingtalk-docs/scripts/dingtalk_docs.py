@@ -26,7 +26,7 @@ from html import unescape
 from html.parser import HTMLParser
 from pathlib import Path
 from typing import Any
-from urllib.parse import parse_qs, quote, unquote, urlencode, urlparse, urlunparse
+from urllib.parse import parse_qs, quote, unquote, urlencode, urljoin, urlparse, urlunparse
 
 
 # ---------------------------------------------------------------------------
@@ -64,6 +64,15 @@ TEXT_KEYS = {
     "plainText",
     "plain_text",
 }
+
+FOLLOW_PATH_KEYWORDS = ("/note/", "/edit/", "/doc/", "/docs/", "/i/nodes/")
+SHELL_TEXT_MARKERS = (
+    "钉钉文档",
+    "DingTalk",
+    "加载中",
+    "请稍候",
+    "enable JavaScript",
+)
 
 
 class AuthError(Exception):
@@ -166,13 +175,19 @@ def normalize_url(url: str) -> str:
     )
 
 
+def normalize_candidate_url(url: str) -> str:
+    """标准化候选读取 URL，去掉 fragment 并保留原查询。"""
+    parsed = urlparse(url)
+    return urlunparse((parsed.scheme, parsed.netloc, parsed.path, "", parsed.query, ""))
+
+
 def parse_dingtalk_url(url: str) -> dict[str, str]:
     """解析钉钉文档 URL，提取 node_id、corpId、sheetId、viewId 等字段。"""
     require_alidocs_url(url)
     parsed = urlparse(url)
     parts = [p for p in parsed.path.split("/") if p]
-    if len(parts) < 3 or parts[0] != "i" or parts[1] != "nodes":
-        raise SystemExit(f"暂只支持 /i/nodes/{{nodeId}} 链接: {url}")
+    if len(parts) < 3 or parts[0] != "i" or parts[1] not in {"nodes", "note"}:
+        raise SystemExit(f"暂只支持 /i/nodes/{{nodeId}} 或 /i/note/{{nodeId}} 链接: {url}")
 
     query = parse_qs(parsed.query, keep_blank_values=True)
     iframe = parse_iframe_query(query)
@@ -187,6 +202,21 @@ def parse_dingtalk_url(url: str) -> dict[str, str]:
         "url": url,
     }
     return result
+
+
+def make_note_edit_candidates(info: dict[str, str]) -> list[str]:
+    """基于 node_id 构造常见 note/edit 只读候选页面。"""
+    node_id = info["node_id"]
+    query: dict[str, list[str]] = {}
+    if info.get("corp_id"):
+        query["corpId"] = [info["corp_id"]]
+    encoded_query = urlencode(query, doseq=True, quote_via=quote)
+    suffix = f"?{encoded_query}" if encoded_query else ""
+    return [
+        f"https://alidocs.dingtalk.com/i/note/{node_id}{suffix}",
+        f"https://alidocs.dingtalk.com/i/note/{node_id}/edit{suffix}",
+        f"https://alidocs.dingtalk.com/i/nodes/{node_id}/edit{suffix}",
+    ]
 
 
 # ---------------------------------------------------------------------------
@@ -356,6 +386,55 @@ def extract_document(html_text: str) -> dict[str, Any]:
     }
 
 
+def score_document(doc: dict[str, Any]) -> int:
+    """给提取结果打分，优先选择更像正文而不是知识库外壳的页面。"""
+    content = str(doc.get("content") or "")
+    if not content:
+        return 0
+    score = len(content)
+    marker_hits = sum(1 for marker in SHELL_TEXT_MARKERS if marker in content)
+    if marker_hits and len(content) < 1000:
+        score -= marker_hits * 500
+    if doc.get("json_blocks"):
+        score += int(doc["json_blocks"]) * 200
+    if re.search(r"(^|\n)#{1,6}\s|\n[-*]\s|\n\d+\.\s", content):
+        score += 300
+    return max(score, 0)
+
+
+def extract_follow_urls(html_text: str, base_url: str, node_id: str) -> list[str]:
+    """从页面 HTML/脚本中发现 note/edit 等只读候选链接。"""
+    urls: list[str] = []
+
+    for match in re.finditer(r'(?:href|src)=["\']([^"\']+)["\']', html_text, re.IGNORECASE):
+        urls.append(urljoin(base_url, unescape(match.group(1))))
+
+    for match in re.finditer(r'https?:\\?/\\?/alidocs\.dingtalk\.com[^"\'\\<>\s]+', html_text):
+        raw = match.group(0).replace("\\/", "/")
+        urls.append(unescape(raw))
+
+    for match in re.finditer(r'(["\'])(/[^"\']*(?:note|edit|nodes)[^"\']*)\1', html_text):
+        urls.append(urljoin(base_url, unescape(match.group(2)).replace("\\/", "/")))
+
+    normalized: list[str] = []
+    seen: set[str] = set()
+    for url in urls:
+        parsed = urlparse(url)
+        if parsed.netloc != "alidocs.dingtalk.com":
+            continue
+        if node_id not in url:
+            continue
+        if not any(keyword in parsed.path for keyword in FOLLOW_PATH_KEYWORDS):
+            continue
+        clean = normalize_candidate_url(url)
+        if clean in seen:
+            continue
+        seen.add(clean)
+        normalized.append(clean)
+
+    return normalized
+
+
 # ---------------------------------------------------------------------------
 # HTTP 客户端
 # ---------------------------------------------------------------------------
@@ -403,19 +482,58 @@ class DingTalkDocsClient:
         finally:
             Path(out_path).unlink(missing_ok=True)
 
-    def read(self, url: str) -> dict[str, Any]:
-        """读取钉钉文档页面并提取正文。"""
-        info = parse_dingtalk_url(url)
+    def read_candidate(self, url: str) -> dict[str, Any]:
+        """读取单个候选页面，返回提取结果与来源 URL。"""
         html_text = self.fetch_page(url)
         doc = extract_document(html_text)
+        doc["source_url"] = normalize_candidate_url(url)
+        doc["score"] = score_document(doc)
+        doc["follow_urls"] = extract_follow_urls(html_text, url, parse_dingtalk_url(url)["node_id"])
+        return doc
+
+    def read(self, url: str) -> dict[str, Any]:
+        """读取钉钉文档页面，并跟随 note/edit 只读候选页提取正文。"""
+        info = parse_dingtalk_url(url)
+        base_url = info["clean_url"] or url
+        candidate_urls = [base_url, *make_note_edit_candidates(info)]
+        candidates: list[dict[str, Any]] = []
+        errors: list[dict[str, str]] = []
+        seen: set[str] = set()
+        index = 0
+
+        while index < len(candidate_urls) and len(seen) < 12:
+            candidate_url = normalize_candidate_url(candidate_urls[index])
+            index += 1
+            if candidate_url in seen:
+                continue
+            seen.add(candidate_url)
+            try:
+                candidate = self.read_candidate(candidate_url)
+                candidates.append(candidate)
+                for follow_url in candidate.get("follow_urls", []):
+                    if follow_url not in seen and follow_url not in candidate_urls:
+                        candidate_urls.append(follow_url)
+            except AuthError:
+                raise
+            except Exception as exc:  # noqa: BLE001 - 候选页失败不应阻断其他候选
+                errors.append({"url": candidate_url, "message": str(exc)})
+
+        doc = max(candidates, key=score_document, default={})
+        fallback_title = next((c.get("title") for c in candidates if c.get("title")), "")
+        if doc and not doc.get("title"):
+            doc["title"] = fallback_title
+
         return {
             "ok": True,
             **info,
             **doc,
+            "followed_urls": [c["source_url"] for c in candidates if c.get("source_url")],
+            "candidate_errors": errors,
             "note": (
-                "若 content 为空或仅有页面壳，说明正文可能由钉钉运行时只读接口加载；"
-                "请补充该接口样本后再扩展脚本。"
-                if not doc["content"]
+                "已尝试原始 node 页面、常见 note/edit 子页面及页面内发现的只读候选链接；"
+                "若 content 仍为空或仅有页面壳，说明正文可能由未暴露在 SSR/HTML 中的运行时只读接口加载，"
+                "请补充 Network 中加载正文的 GET/只读请求样本。"
+                if not doc.get("content")
                 else ""
             ),
         }
