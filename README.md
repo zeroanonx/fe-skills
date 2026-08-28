@@ -43,6 +43,6 @@ npx skills add zeroanonx/fe-skills --skill fe-code-review --skill fe-yuque-docs 
 | `fe-yuque-docs` 📖         | [skills/fe-yuque-docs/README.md](skills/fe-yuque-docs/README.md)                 | `/fe-yuque-docs` 或分享语雀 URL | Cookie **只读/搜索**语雀（不支持写入）        | 对话内总结                                    |
 | `fe-screenshot-to-task` 📸 | [skills/fe-screenshot-to-task/README.md](skills/fe-screenshot-to-task/README.md) | `/fe-screenshot-to-task`        | 截图/PRD 转前端任务，落地前须确认             | `fe-spec/tasks/{任务名}/`                     |
 | `fe-create-rules` 📐       | [skills/fe-create-rules/README.md](skills/fe-create-rules/README.md)             | `/fe-create-rules`              | 分析老项目，生成 Cursor/Codex/Claude 编码规则 | `.cursor/rules/` 或 `AGENTS.md` / `CLAUDE.md` |
-| `fe-ai-coding` ✍️          | [skills/fe-ai-coding/README.md](skills/fe-ai-coding/README.md)                   | `/fe-ai-coding` 或「写代码按团队规范」 | 前端编码注释、逻辑分区与空行组织              | 直接约束本次代码修改                          |
+| `fe-ai-coding` ✍️          | [skills/fe-ai-coding/README.md](skills/fe-ai-coding/README.md)                   | `/fe-ai-coding` 或「写代码按团队规范」 | 前端分区注释、代码风格与校验约束              | 直接约束本次代码修改                          |
 
 Happy coding 🎉
