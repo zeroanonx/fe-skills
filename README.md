@@ -49,8 +49,10 @@ npx skills add zeroanonx/fe-skills --skill fe-code-review --skill fe-yuque-docs 
 
 ## 设计到验收
 
+完整使用方式、技能搭配、开发与迁移流程见[前端 Agent 工作流使用指南](docs/frontend-agent-workflow.md)。
+
 `fe-design-analysis` 提取视觉基准 → `fe-ai-coding` 按项目规范实现 → `fe-ui-verification` 在真实页面上对照验收。需要产品流程与开发任务拆解时，配合 `fe-screenshot-to-task`。各技能可独立使用，不要求固定安装路径。
 
-老业务迁入新工程使用 `fe-project-migration`：先还原操作链路与参数契约，再对照目标工程、形成规格、分批实现与验收。支持只读梳理和仅方案模式，不把方案产出当作迁移完成。
+老业务迁入新工程使用 `fe-project-migration`：先盘点全部页面、接口、函数功能、样式等迁移项，严格按阶段 0～5 完成基线、业务地图、不变项与适配、规格、批次实现和验收，前置门禁未通过不得进入后续阶段。支持只读梳理和仅方案模式，不把方案产出当作迁移完成。
 
 Happy coding 🎉

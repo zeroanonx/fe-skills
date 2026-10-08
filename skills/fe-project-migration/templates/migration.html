@@ -21,14 +21,16 @@
 <body>
   <header><div class="eyebrow">FRONTEND PROJECT MIGRATION</div><h1>{{module}}</h1><p>{{mode}} · {{run_id}} · {{updated_at}}</p><span class="status">{{conclusion}}</span></header>
   <main>
-    <nav aria-label="报告章节"><a href="#baseline">范围与基线</a><a href="#business">业务地图</a><a href="#mapping">工程映射</a><a href="#rules">规则与缺口</a><a href="#batches">批次与变更</a><a href="#verification">场景验收</a><a href="#delivery">交付与续接</a></nav>
+    <nav aria-label="报告章节"><a href="#stages">六阶段门禁</a><a href="#inventory">全部迁移任务</a><a href="#baseline">0 · 基线</a><a href="#business">1 · 业务地图</a><a href="#mapping">2 · 工程映射</a><a href="#rules">3 · 规格与任务</a><a href="#batches">4 · 批次实现</a><a href="#verification">5 · 验收</a><a href="#delivery">交付与续接</a></nav>
     <div>
-      <section id="baseline"><h2>范围与基线</h2>{{baseline_html}}</section>
-      <section id="business"><h2>业务地图</h2><div class="table-wrap">{{business_table_html}}</div></section>
-      <section id="mapping"><h2>新旧工程映射</h2><div class="table-wrap">{{mapping_table_html}}</div></section>
-      <section id="rules"><h2>规则、规格与待确认</h2>{{rules_and_unknowns_html}}</section>
-      <section id="batches"><h2>批次与实际变更</h2><div class="table-wrap">{{batch_table_html}}</div></section>
-      <section id="verification"><h2>场景验收</h2><div class="table-wrap">{{scenario_table_html}}</div></section>
+      <section id="stages"><h2>六阶段状态与退出检查</h2><p>严格按 0～5 执行；前置阶段未通过不得进入后续阶段。阶段 0～3 禁止修改业务代码。</p><div class="table-wrap">{{stage_table_html}}</div></section>
+      <section id="inventory"><h2>本次全部迁移任务清单</h2><div class="table-wrap">{{inventory_table_html}}</div>{{inventory_category_coverage_html}}</section>
+      <section id="baseline"><h2>阶段 0：可以复核的基线</h2>{{baseline_html}}</section>
+      <section id="business"><h2>阶段 1：业务地图</h2><div class="table-wrap">{{business_table_html}}</div></section>
+      <section id="mapping"><h2>阶段 2：业务不变项与工程适配</h2><div class="table-wrap">{{mapping_table_html}}</div></section>
+      <section id="rules"><h2>阶段 3：可执行可验收规格与全部任务</h2>{{rules_and_unknowns_html}}<div class="table-wrap">{{task_table_html}}</div></section>
+      <section id="batches"><h2>阶段 4：批次实现与范围检查</h2><div class="table-wrap">{{batch_table_html}}</div></section>
+      <section id="verification"><h2>阶段 5：规则、场景与证据验收</h2><div class="table-wrap">{{scenario_table_html}}</div></section>
       <section id="delivery"><h2>门禁、遗留与下一步</h2>{{delivery_html}}</section>
     </div>
   </main>
