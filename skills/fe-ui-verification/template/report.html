@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{{title}} · UI 验收报告</title><style>*{box-sizing:border-box}body{margin:0;background:#f4f6fa;color:#192437;font:15px/1.7 system-ui,-apple-system,"PingFang SC",sans-serif}a{color:#245ac2}header{background:#10213c;color:white;padding:40px max(24px,calc((100vw - 1160px)/2))}header p{color:#c7d5eb;margin:8px 0}h1{font-size:32px;margin:8px 0}h2{font-size:21px;margin-top:0}h3{font-size:17px}main{max-width:1208px;margin:24px auto;padding:0 24px;display:grid;grid-template-columns:190px minmax(0,1fr);gap:24px}nav{position:sticky;top:24px;align-self:start}nav a{display:block;padding:7px 0;text-decoration:none}section{background:white;border:1px solid #dde4ee;border-radius:12px;padding:24px;margin-bottom:20px;scroll-margin-top:24px}.notice{border-left:4px solid #e3a332;padding:12px 16px;background:#fff8e9;color:#634400}.stats{display:flex;flex-wrap:wrap;gap:12px}.stat{padding:12px 20px;background:#edf3ff;border-radius:8px;min-width:130px}.stat strong{display:block;font-size:24px}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;border-bottom:1px solid #e1e6ee;padding:10px;vertical-align:top}th{background:#f3f6fb}code{background:#eef2f8;border-radius:4px;padding:2px 4px}pre{overflow:auto;padding:16px;background:#eef2f8}img{max-width:100%;height:auto;border:1px solid #dde4ee;border-radius:8px}figure{margin:16px 0}figcaption{font-size:13px;color:#526079}.evidence{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.meta{overflow-wrap:anywhere}footer{padding:12px 0 36px;color:#526079}a:focus-visible{outline:3px solid #e3a332;outline-offset:3px}@media(max-width:760px){main{display:block;padding:0 16px}nav{position:static;display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px}header{padding:24px}h1{font-size:26px}section{padding:18px}.evidence{grid-template-columns:1fr}}@media print{body{background:white;font-size:11pt}header{background:white;color:#192437;padding:0}header p{color:#526079}main{display:block;max-width:none;padding:0}nav{display:none}section{border:0;padding:10px 0;break-inside:auto}figure,tr{break-inside:avoid}a{color:inherit}.table-wrap{overflow:visible}table{font-size:10pt}} .selection-list{display:grid;gap:12px;margin:16px 0}.selection-item{overflow-wrap:anywhere;display:block;padding:14px;background:#f3f6fb;border:1px solid #dce5f3;border-radius:8px}.selection-item input{margin-right:8px}button{border:0;border-radius:6px;padding:10px 16px;background:#245ac2;color:white;font:inherit;cursor:pointer}button:focus-visible,textarea:focus-visible,input:focus-visible{outline:3px solid #e3a332;outline-offset:3px}button:disabled{opacity:.5;cursor:default}.selection-actions{display:flex;gap:12px;flex-wrap:wrap}textarea{display:block;width:100%;min-height:110px;margin-top:14px;padding:12px;border:1px solid #cbd6e6;border-radius:6px;font:inherit}.selection-hint{color:#526079;font-size:14px}@media print{.selection-actions{display:none}}
+</style></head>
+<body data-report-ref="{{report_ref}}" data-report-updated="{{generated_at}}"><header><p>UI 验收报告 · {{run_id}}</p><h1>{{title}}</h1><p class="meta">{{subtitle}}</p></header>
+<main><nav aria-label="报告目录"><a href="#summary">结论与问题统计</a><a href="#baseline">环境与设计基准</a><a href="#coverage">覆盖与证据</a><a href="#issues">差异清单</a><a href="#modifications">全部修改意见与选择</a><a href="#retest">复验记录</a><a href="#pending">未验证与下一步</a><a href="#reflection">分析补充建议</a><a href="report.md">Markdown 版本</a></nav><article>
+<section id="summary"><h2>结论与问题统计</h2>{{summary_html}}</section>
+<section id="baseline"><h2>环境与设计基准</h2>{{baseline_html}}</section>
+<section id="coverage"><h2>覆盖与证据</h2>{{coverage_html}}</section>
+<section id="issues"><h2>差异清单</h2>{{issues_html}}</section>
+<section id="modifications"><h2>全部修改意见与选择</h2>
+<p>请完整阅读意见后勾选需要执行的项。生成修改指令并发回当前对话，收到选择后开始修改；也可直接回复意见 ID 或“仅保留报告”。</p>
+<div class="selection-list">{{modifications_html}}</div>
+<p id="selection-status" role="status" aria-live="polite">尚未选择修改意见</p>
+<div class="selection-actions"><button type="button" id="generate-selection" disabled>生成所选修改指令</button><button type="button" id="copy-selection" disabled>复制指令</button></div>
+<label for="selection-command" class="selection-hint">将下方指令发送到当前对话。报告内勾选仅记录本地选择，不会自动修改代码。</label>
+<textarea id="selection-command" readonly placeholder="勾选意见后生成修改指令"></textarea>
+</section>
+<section id="retest"><h2>复验记录</h2>{{retest_html}}</section>
+<section id="pending"><h2>未验证与下一步</h2>{{pending_html}}</section>
+<section id="reflection"><h2>分析补充建议</h2>{{reflection_html}}</section>
+<footer>生成时间：{{generated_at}} · <a href="report.md">查看同轮次 Markdown</a></footer>
+</article></main><script>
+(() => {
+  const boxes = [...document.querySelectorAll('input[name="modification"]')];
+  const status = document.getElementById('selection-status');
+  const generate = document.getElementById('generate-selection');
+  const copy = document.getElementById('copy-selection');
+  const command = document.getElementById('selection-command');
+  const reportRef = document.body.dataset.reportRef;
+  const reportUpdated = document.body.dataset.reportUpdated;
+  const ids = () => [...new Set(boxes.filter(box => box.checked).map(box => box.value))];
+  // 每次加载恢复未选状态，不把浏览器还原的勾选误当作本轮已提交决定。
+  boxes.forEach(box => { box.checked = false; });
+  generate.disabled = true;
+  copy.disabled = true;
+  command.value = '';
+  if (!boxes.length) status.textContent = '本次没有待选择的修改意见';
+  boxes.forEach(box => box.addEventListener('change', () => {
+    const selected = ids();
+    status.textContent = selected.length ? `已选择 ${selected.length} 项：${selected.join('、')}` : '尚未选择修改意见';
+    generate.disabled = selected.length === 0;
+    command.value = '';
+    copy.disabled = true;
+  }));
+  generate.addEventListener('click', () => {
+    const selected = ids();
+    if (!selected.length) return;
+    command.value = `请按报告：${reportRef}（更新时间：${reportUpdated}）执行所选修改意见：${selected.join('、')}。执行前核对报告版本和方案；只修改这些项，完成后复验并更新 HTML/Markdown 报告。`;
+    copy.disabled = false;
+    status.textContent = '指令已生成，请发送到当前对话确认所选修改项。';
+  });
+  copy.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(command.value);
+      status.textContent = '指令已复制，请粘贴并发送到当前对话。';
+    } catch {
+      command.focus();
+      command.select();
+      status.textContent = '请手动复制已选中的指令并发送到当前对话。';
+    }
+  });
+})();
+</script></body></html>
